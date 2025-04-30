@@ -15,7 +15,7 @@ Advanced Discord Nuking tool using **self-tokens**, built for speed, reliability
 | 🛡️ Admin Permissions Checker | Checks if the self-account has Admin permissions before executing actions.               |
 | 🗑️ Mass Channel Deletion     | Deletes all channels (text and voice) quickly using threading.                           |
 | 🛠️ Mass Channel Creation     | Creates a large number of new channels fast.                                             |
-| 📢 Mass Spam in Channels      | Spams all channels with a predefined GhostByte team message.                             |
+| 📢 Mass Spam in Channels      | Spams all channels with a predefined GhostByte team message (You Can Change it).                             |
 | 👞 Filtered Mass Kick         | Kick specific users by ID list or kick all members.                                      |
 | 🔨 Filtered Mass Ban          | Ban specific users by ID list or ban all members.                                        |
 | ✉️ Mass Direct Messaging (DM) | Send mass DM messages to all server members.                                             |
